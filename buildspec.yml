@@ -11,7 +11,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 656066243987.dkr.ecr.us-east-1.amazonaws.com)
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 656066243987.dkr.ecr.us-east-1.amazonaws.com
       - REPOSITORY_URI=656066243987.dkr.ecr.us-east-1.amazonaws.com/text_summarizer_image:latest
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   build:
