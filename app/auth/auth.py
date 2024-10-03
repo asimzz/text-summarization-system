@@ -1,22 +1,35 @@
 import os
-from fastapi import Depends, HTTPException, status, Response
-from fastapi.security import OAuth2PasswordBearer
 import jwt
 from dotenv import load_dotenv
+from fastapi import HTTPException, status
 from datetime import datetime, timedelta
 from typing import Optional, Dict
-from .schemas import User, Token
+from utils import hash_password
+from app.schemas import Token
 
 
 load_dotenv()
 
 ALGORITHM = "HS256"
-token_secret_key =  os.getenv("TOKEN_SECRET_KEY")
+token_secret_key = os.getenv("TOKEN_SECRET_KEY")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
+# TODO: Replace the username and password with your own
 # In-memory storage for user data
-users_db: Dict[str, str] = {}
+users_db: Dict[str, str] = {
+    "user1": {
+        "username": "user1",
+        "full_name": "User One",
+        "password": hash_password("user1password"),
+        "role": "user",
+    },
+    "admin": {
+        "username": "admin",
+        "full_name": "Admin User",
+        "password": hash_password("adminpassword"),
+        "role": "admin",
+    },
+}
+
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """
@@ -24,7 +37,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
     Args:
         data (dict): The data to encode in the token.
-        expires_delta (Optional[timedelta]): The time duration after which the token will expire. 
+        expires_delta (Optional[timedelta]): The time duration after which the token will expire.
                                             If not provided, the token will expire in 15 minutes.
 
     Returns:
@@ -40,7 +53,6 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 
-
 def decode_access_token(token: str):
     """
     Decodes a JWT access token to extract the username.
@@ -51,8 +63,6 @@ def decode_access_token(token: str):
     Raises:
         HTTPException: If the token has expired or is invalid.
     """
-    
-    print("token", token)
     try:
         payload = jwt.decode(token, token_secret_key, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -70,21 +80,8 @@ def decode_access_token(token: str):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    """
-    Retrieve the current user based on the provided token.
 
-    Args:
-        token (str): The access token used for authentication.
-
-    Returns:
-        dict: The payload extracted from the access token.
-    """
-    payload = decode_access_token(token)
-    return payload
-
-
-def generate_token_response(username:str, response: Response):
+def generate_token_response(username: str):
     """
     Generates an access token for the given username and sets it as an HTTP-only cookie in the response.
 
@@ -95,26 +92,11 @@ def generate_token_response(username:str, response: Response):
     Returns:
         Token: An object containing the access token and its type.
     """
-    access_token_expires = timedelta(minutes=int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")))
+    access_token_expires = timedelta(
+        minutes=int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+    )
     access_token = create_access_token(
         data={"sub": username}, expires_delta=access_token_expires
     )
-    response.set_cookie(key="access_token", value=access_token, httponly=True)
-    return Token(access_token=access_token,token_type="bearer")
 
-def register_user(user: User):
-    """
-    Registers a new user in the system.
-
-    Args:
-        user (User): The user object containing the username and password.
-
-    Raises:
-        HTTPException: If the username is already registered, an HTTP 400 error is raised.
-    """
-    if user.username in users_db:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Username already registered",
-        )
-    users_db[user.username] = user.password
+    return Token(access_token=access_token, token_type="bearer")
