@@ -1,10 +1,5 @@
 version: 0.2
 
-env:
-  secrets-manager:
-    DOCKERHUB_USERNAME: dockerhub/credentials:DOCKERHUB_USERNAME
-    DOCKERHUB_PASSWORD: dockerhub/credentials:DOCKERHUB_PASSWORD
-
 phases:
   install:
     runtime-versions:
@@ -17,8 +12,6 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 656066243987.dkr.ecr.us-east-1.amazonaws.com
-      - echo Logging in to Docker Hub...
-      - echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
       - REPOSITORY_URI=656066243987.dkr.ecr.us-east-1.amazonaws.com/text_summarizer_image
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   build:
@@ -32,7 +25,6 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image to ECR...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - docker push $REPOSITORY_URI:latest
       - echo Writing image definitions file...
       - printf '[{"name":"Text_Summarizer_Container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
