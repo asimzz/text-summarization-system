@@ -1,35 +1,16 @@
 import os
 import jwt
 from dotenv import load_dotenv
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Request
 from datetime import datetime, timedelta
-from typing import Optional, Dict
-from utils import hash_password
-from app.schemas import Token
+from typing import Optional
+from schemas import Token
 
 
 load_dotenv()
 
 ALGORITHM = "HS256"
 token_secret_key = os.getenv("TOKEN_SECRET_KEY")
-
-# TODO: Replace the username and password with your own
-# In-memory storage for user data
-users_db: Dict[str, str] = {
-    "user1": {
-        "username": "user1",
-        "full_name": "User One",
-        "password": hash_password("user1password"),
-        "role": "user",
-    },
-    "admin": {
-        "username": "admin",
-        "full_name": "Admin User",
-        "password": hash_password("adminpassword"),
-        "role": "admin",
-    },
-}
-
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """
@@ -100,3 +81,23 @@ def generate_token_response(username: str):
     )
 
     return Token(access_token=access_token, token_type="bearer")
+
+def get_authenticated_user(request:Request):
+    """
+    Get the authenticated user from the access token.
+
+    Args:
+        token (str): The JWT access token.
+    Returns:
+        str: The username extracted from the token.
+    """
+    try:
+        token = request.headers.get("Authorization").split(" ")[1]
+        username = decode_access_token(token)
+        return username
+    except HTTPException as e:
+        raise HTTPException(
+            status_code=e.status_code,
+            detail=e.detail,
+            headers=e.headers,
+        )
