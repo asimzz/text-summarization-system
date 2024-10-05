@@ -68,8 +68,6 @@ starlette==0.38.6
 streamlit==1.39.0
 sympy==1.13.3
 tenacity==9.0.0
--e git+https://github.com/asimzz/text-summarization-system.git@387876af405bc8c4f70893f2f8370d4bfcb5e4a7#egg=text_summarization_system
--e git+https://github.com/asimzz/text-summarization-system.git@387876af405bc8c4f70893f2f8370d4bfcb5e4a7#egg=text_summarizer_system
 tokenizers==0.20.0
 toml==0.10.2
 torch==2.4.1
