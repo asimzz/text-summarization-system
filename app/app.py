@@ -1,14 +1,25 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from model import summarizer
 from dotenv import load_dotenv
-from app.schemas import UserCredentials, Text
-from app.auth import generate_token_response, users_db, JWTBearer
+from schemas import UserCredentials, User, Texts
+from app.auth import generate_token_response, JWTBearer 
 from utils import verify_password
+from db import connect_to_mongo, get_collection
+from datetime import datetime
+from utils import hash_password
 
 
 load_dotenv()
 
-app = FastAPI()
+version = "v1"
+
+app = FastAPI(
+    title="Text Summarizer",
+    description="A simple text summarizer API.",
+    version=version,
+)
+
+db = connect_to_mongo()
 
 
 @app.get("/")
@@ -16,7 +27,31 @@ def root():
     """
     The root endpoint.
     """
-    return {"message": "Hello, Text Summarizer! V.1.0"}
+    return {"message": f"Hello, Text Summarizer! {version}"}
+
+
+@app.post("/register")
+async def register(user: User):
+    """
+    Registers a new user.
+    Args:
+        user (UserCredentials): The user's registration details.
+
+    Returns:
+        dict: A dictionary containing the user's registration details.
+    """
+
+    collection = get_collection(db, "users")
+    user.created_at = datetime.now()
+    user.password = hash_password(user.password)
+    result = collection.insert_one(dict(user))
+    if not result.inserted_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User registration failed",
+        )
+
+    return {"result": "User registered successfully"}
 
 
 @app.post("/login")
@@ -32,7 +67,8 @@ async def login(credentials: UserCredentials):
     Returns:
         dict: A dictionary containing the access token.
     """
-    user = users_db.get(credentials.username)
+    collection = get_collection(db, "users")
+    user = collection.find_one({"username": credentials.username})
     matched = verify_password(credentials.password, user["password"])
     if not user or not matched:
         raise HTTPException(
@@ -44,7 +80,9 @@ async def login(credentials: UserCredentials):
 
 
 @app.post("/summarize", dependencies=[Depends(JWTBearer())])
-async def summarize_text(request: Text):
+async def summarize_text(
+    originalTexts: Texts,
+):
     """
     Summarizes a given text.
     Args:
@@ -53,5 +91,7 @@ async def summarize_text(request: Text):
     Returns:
         dict: A dictionary containing the summarized text.
     """
-    summary = summarizer(request.text, max_length=1000, min_length=30, do_sample=False)
+    summary = summarizer(
+        originalTexts.texts, max_length=1000, min_length=30, do_sample=False
+    )
     return {"summary": summary}
