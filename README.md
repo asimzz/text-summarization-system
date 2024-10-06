@@ -8,6 +8,8 @@ For more information on the product design and vision, you can refer to the [**T
 
 - [Text Summarization System](#text-summarization-system)
   - [Table of Contents](#table-of-contents)
+  - [System Design Overview](#system-design-overview)
+    - [System Design Breakdown:](#system-design-breakdown)
   - [Project Structure](#project-structure)
     - [Purpose of Each Directory:](#purpose-of-each-directory)
   - [Features](#features)
@@ -17,6 +19,19 @@ For more information on the product design and vision, you can refer to the [**T
     - [Running with Docker](#running-with-docker)
     - [Running the Streamlit Frontend:](#running-the-streamlit-frontend)
   - [Testing the API](#testing-the-api)
+
+## System Design Overview
+
+Below is a high-level architecture diagram of the **Text Summarization System**. This diagram provides an overview of how the components are structured, including the **web client**, **API server**, **ML core template**, **REST API template**, and the **deployment pipeline** for hosting the application in a cloud environment.
+
+![System Design](assets/system_design.png)
+
+### System Design Breakdown:
+
+- **Web Client**: This is the user interface where raw text is inputted. The web client communicates with the server through a POST request to send text for summarization.
+- **ML Core Template**: The ML core is responsible for processing the text, storing input, and generating the summarized output using a machine learning model.
+- **Non-ML Template (REST API)**: This handles request routing, JWT-based authentication, request validation, and centralized logging for API requests.
+- **Deployment Pipeline**: Describes the flow from source code to containerization, automated testing, and final deployment to AWS (ECS and ECR) with continuous monitoring through CloudWatch.
 
 ## Project Structure
 
