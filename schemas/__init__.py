@@ -11,8 +11,8 @@ class Token(BaseModel):
     token_type: str
 
 
-class Texts(BaseModel):
-    texts: List[str]
+class Text(BaseModel):
+    text: str
 
 
 class User(BaseModel):
