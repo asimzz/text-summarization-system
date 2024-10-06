@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from model import summarizer
 from dotenv import load_dotenv
 from schemas import UserCredentials, User, Texts
-from app.auth import generate_token_response, JWTBearer 
+from app.auth import generate_token_response, JWTBearer
 from utils import verify_password
 from db import connect_to_mongo, get_collection
 from datetime import datetime
