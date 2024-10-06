@@ -138,4 +138,4 @@ This page provides a user-friendly interface to test all the API endpoints (such
 
 ## Contact
 If you have any comments, suggestions or anything you'd like to be clarify on, feel free
-to reach us via email [Prince](mailto:pmensah@aimsammi.org), [Leema](mailto:lhamid@aimsammi.org), [Asim](mailto:amohamed@aimsammi.org) or let's connect on linkedin, [Leema](https://www.linkedin.com/in/leema-hamid/),[Prince](https://www.linkedin.com/in/prince-mensah/), [Asim](https://www.linkedin.com/in/asim-mohamed-9a2047135/).
+to reach us via email [Asim](mailto:amohamed@aimsammi.org), [Leema](mailto:lhamid@aimsammi.org), [Prince](mailto:pmensah@aimsammi.org) or let's connect on linkedin, [Leema](https://www.linkedin.com/in/leema-hamid/), [Prince](https://www.linkedin.com/in/prince-mensah/), [Asim](https://www.linkedin.com/in/asim-mohamed-9a2047135/).
