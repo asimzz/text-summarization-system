@@ -19,6 +19,7 @@ For more information on the product design and vision, you can refer to the [**T
     - [Running with Docker](#running-with-docker)
     - [Running the Streamlit Frontend:](#running-the-streamlit-frontend)
   - [Testing the API](#testing-the-api)
+  - [Contacts](#contants)
 
 ## System Design Overview
 
@@ -134,3 +135,7 @@ http://localhost:8000/docs
 ```
 
 This page provides a user-friendly interface to test all the API endpoints (such as login, registration, and text summarization) directly from your browser. You can input the required data and see the responses, which makes it easy to ensure the API is working as expected.
+
+## Contact
+If you have any comments, suggestions or anything you'd like to be clarify on, feel free
+to reach us via email [Prince](mailto:pmensah@aimsammi.org), [Leema](mailto:lhamid@aimsammi.org), [Asim](mailto:amohamed@aimsammi.org) or let's connect on linkedin, [Leema](https://www.linkedin.com/in/leema-hamid/),[Prince](https://www.linkedin.com/in/prince-mensah/), [Asim](https://www.linkedin.com/in/asim-mohamed-9a2047135/).
