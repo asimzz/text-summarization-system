@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from model import summarizer
 from dotenv import load_dotenv
-from schemas import UserCredentials, User, Texts
+from schemas import UserCredentials, User, Text
 from app.auth import generate_token_response, JWTBearer
 from utils import verify_password
 from db import connect_to_mongo, get_collection
@@ -81,7 +81,7 @@ async def login(credentials: UserCredentials):
 
 @app.post("/summarize", dependencies=[Depends(JWTBearer())])
 async def summarize_text(
-    originalTexts: Texts,
+    originalTexts: Text,
 ):
     """
     Summarizes a given text.
@@ -92,6 +92,6 @@ async def summarize_text(
         dict: A dictionary containing the summarized text.
     """
     summary = summarizer(
-        originalTexts.texts, max_length=1000, min_length=30, do_sample=False
+        originalTexts.text, max_length=1000, min_length=30, do_sample=False
     )
     return {"summary": summary}
