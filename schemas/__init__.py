@@ -1,6 +1,11 @@
 from pydantic import BaseModel
-from typing import List
+from typing import Optional
+from enum import Enum
 
+
+class UserRoles(str, Enum):
+    admin = 'admin'
+    user = 'user'
 class UserCredentials(BaseModel):
     username: str
     password: str
@@ -20,8 +25,8 @@ class User(BaseModel):
     full_name: str
     password: str
     email: str
-    role: str
-    created_at: str
+    role: Optional[UserRoles] = UserRoles.user
+    created_at: Optional[str] = None
 
 
 class RequestLog(BaseModel):
