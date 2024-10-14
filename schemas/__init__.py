@@ -21,6 +21,7 @@ class Text(BaseModel):
 
 
 class User(BaseModel):
+    _id: Optional[str] = None
     username: str
     full_name: str
     password: str
@@ -34,6 +35,6 @@ class RequestLog(BaseModel):
     user_id: str
     time: str
     endpoint: str
-    status_code: int
     request_body: dict
     request_headers: dict
+    response_body: dict
