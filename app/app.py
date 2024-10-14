@@ -68,8 +68,10 @@ async def login(credentials: UserCredentials):
     Returns:
         dict: A dictionary containing the access token.
     """
-    user = users_collection.find_one({"username": credentials.username})
-    matched = verify_password(credentials.password, user["password"])
+    collection = get_collection(db, "users")
+    user = collection.find_one({"username": credentials.username})
+    if user:
+        matched = verify_password(credentials.password, user["password"])
     if not user or not matched:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -114,4 +116,4 @@ async def summarize_text(originalTexts: Text, request: Request):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="User registration failed",
         )
-    return summary_result
+    return summary_result["summary"][0]
