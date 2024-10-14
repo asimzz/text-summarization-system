@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Test Pipeline
 
 on:
   push:
@@ -24,5 +24,9 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-mock
       - name: Run tests
+        env:
+          MONGO_DB_URL: ${{ secrets.MONGO_DB_URL }}
+          TOKEN_SECRET_KEY: ${{ secrets.TOKEN_SECRET_KEY }}
+          ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
         run: |
           pytest tests/
