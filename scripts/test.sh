@@ -6,4 +6,4 @@ cleanup() {
 # Trap the EXIT signal to run the cleanup function when the script exits
 trap cleanup EXIT
 
-pytest --disable-warnings tests/test_app.py
+pytest --disable-warnings tests/
