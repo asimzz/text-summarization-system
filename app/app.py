@@ -69,7 +69,8 @@ async def login(credentials: UserCredentials):
     """
     collection = get_collection(db, "users")
     user = collection.find_one({"username": credentials.username})
-    matched = verify_password(credentials.password, user["password"])
+    if user:
+        matched = verify_password(credentials.password, user["password"])
     if not user or not matched:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -94,4 +95,4 @@ async def summarize_text(
     summary = summarizer(
         originalTexts.text, max_length=1000, min_length=30, do_sample=False
     )
-    return {"summary": summary}
+    return summary[0]
