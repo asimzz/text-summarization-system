@@ -26,4 +26,4 @@ jobs:
           TOKEN_SECRET_KEY: ${{ secrets.TOKEN_SECRET_KEY }}
           ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
         run: |
-          pytest tests/
+          pytest backend/tests/
