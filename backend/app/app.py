@@ -114,6 +114,6 @@ async def summarize_text(originalTexts: Text, request: Request):
     if not log_result.inserted_id:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User registration failed",
+            detail="Request logging failed",
         )
     return summary_result["summary"][0]

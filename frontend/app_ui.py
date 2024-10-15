@@ -1,6 +1,13 @@
+import os
 import streamlit as st
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Base URL for the FastAPI app
+api_url = os.getenv("API_BASE_URL")
 
 # Function for registration
 def register_user():
@@ -25,7 +32,7 @@ def register_user():
             "created_at": datetime.now().isoformat()  # Automatically set the current timestamp
         }
         
-        response = requests.post("http://127.0.0.1:8000/register", json=data)
+        response = requests.post(f"{api_url}/register", json=data)
         
         if response.status_code == 200:
             st.success("User registered successfully!")
@@ -48,7 +55,7 @@ def login_user():
     
     if st.button("Login", key="login"):
         data = {"username": username, "password": password}
-        response = requests.post("http://127.0.0.1:8000/login", json=data)
+        response = requests.post(f"{api_url}/login", json=data)
         
         if response.status_code == 200:
             st.success("Login successful!")
@@ -72,7 +79,7 @@ def summarize_text():
         data = {"text": text}
         
         # Send the request to FastAPI
-        response = requests.post("http://127.0.0.1:8000/summarize", json=data, headers=headers)
+        response = requests.post(f"{api_url}/summarize", json=data, headers=headers)
         
         if response.status_code == 200:
             summary = response.json()["summary_text"]  # Get the plain text response
