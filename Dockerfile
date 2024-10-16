@@ -8,11 +8,11 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Copy the app directory contents to the working directory
-COPY ./app /code/app
-COPY ./db /code/db
-COPY ./model /code/model
-COPY ./schemas /code/schemas
-COPY ./utils /code/utils
+COPY ./backend/app /code/app
+COPY ./backend/db /code/db
+COPY ./backend/model /code/model
+COPY ./backend/schemas /code/schemas
+COPY ./backend/utils /code/utils
 
 EXPOSE 8080
 
