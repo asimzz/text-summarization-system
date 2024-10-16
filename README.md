@@ -17,7 +17,7 @@ For more information on the product design and vision, you can refer to the [**T
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
     - [Run the Application Locally](#run-the-application-locally)
-    - [Running with Docker](#running-with-docker)
+      - [Important Note](#important-note)
   - [Testing the API](#testing-the-api)
   - [Contact](#contact)
 
@@ -108,6 +108,14 @@ To run this project locally, you'll need the following installed on your machine
 
    **Note**: Make sure to replace the placeholders with your actual values. The API_BASE_URL should match the URL you use when running the API service. For local development, it should be set to http://127.0.0.1:8000.
 
+   #### Important Note
+
+   First of all, to run anything related to the API, navigate to the backend directory:
+
+   ```bash
+   cd backend
+   ```
+
 1. **Run the Setup Script**: Before starting the server, run the `setup.sh` script in the `scripts` folder to create dummy users in the database:
    ```bash
    sh scripts/setup.sh
@@ -120,25 +128,12 @@ To run this project locally, you'll need the following installed on your machine
 
    The API should now be running at `http://127.0.0.1:8000`.
 
-1. **Run the Streamlit App**: Use the following command to run the Streamlit application:
+1. **Run the Streamlit App**: Navigate to the frontend directory and use the following command:
    ```bash
-   streamlit run app.py
+   cd frontend
+   streamlit run app_ui.py
    ```
 1. **Access the Application**: Open your web browser and go to `http://localhost:8501`
-
-### Running with Docker
-
-If you'd prefer to run the application in Docker:
-
-1.  **Build the Docker Image**:
-    ```bash
-    docker build -t text-summarization-system .
-    ```
-2.  **Run the Docker Container**:
-    `bash
-docker run -d -p 8080:8080 text-summarization-system    
-`
-    This will run the FastAPI backend on `http://localhost:8080`.
 
 ## Testing the API
 
