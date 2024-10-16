@@ -106,7 +106,7 @@ To run this project locally, you'll need the following installed on your machine
    API_BASE_URL=http://127.0.0.1:8000
    ```
 
-   **Note**: Make sure to replace the placeholders with your actual values. The API_BASE_URL should match the URL you use when running the API service. For local development, it should be set to http://127.0.0.1:8000.
+   **Note**: Make sure to replace the placeholders with your actual values. The `API_BASE_URL` should match the URL you use when running the API service. For local development, it should be set to http://127.0.0.1:8000.
 
    #### Important Note
 
