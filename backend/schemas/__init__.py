@@ -6,6 +6,7 @@ from enum import Enum
 class UserRoles(str, Enum):
     admin = 'admin'
     user = 'user'
+    
 class UserCredentials(BaseModel):
     username: str
     password: str
