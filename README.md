@@ -16,10 +16,10 @@ For more information on the product design and vision, you can refer to the [**T
   - [Requirements](#requirements)
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
+    - [Run the Application Locally](#run-the-application-locally)
     - [Running with Docker](#running-with-docker)
-    - [Running the Streamlit Frontend:](#running-the-streamlit-frontend)
   - [Testing the API](#testing-the-api)
-  - [Contacts](#contants)
+  - [Contact](#contact)
 
 ## System Design Overview
 
@@ -85,24 +85,46 @@ To run this project locally, you'll need the following installed on your machine
    ```bash
    pip install -r requirements.txt
    ```
-4. **Set Up Environment Variables**: Create a `.env` file in the root of the project with the following variables:
-   ```bash
-   MONGO_DB_URL=mongodb://localhost:27017
-   TOKEN_SECRET_KEY=your_secret_key_here
-   ACCESS_TOKEN_EXPIRE_MINUTES=10
-   ```
 
 ## Running the Application
+
+### Run the Application Locally
+
+1. **Set Up Environment Variables**
+   To run the application, you'll need to set up some environment variables. You can create a .env file in the root of your project with the following placeholders:
+
+   ```bash
+   # .env file
+
+   MONGO_DB_URL=mongodb://your-mongo-url
+
+   TOKEN_SECRET_KEY=your-secret-key
+
+   ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+   # Base URL for the API service
+   API_BASE_URL=http://127.0.0.1:8000
+   ```
+
+   **Note**: Make sure to replace the placeholders with your actual values. The API_BASE_URL should match the URL you use when running the API service. For local development, it should be set to http://127.0.0.1:8000.
 
 1. **Run the Setup Script**: Before starting the server, run the `setup.sh` script in the `scripts` folder to create dummy users in the database:
    ```bash
    sh scripts/setup.sh
    ```
-2. **Start the FastAPI Server**: To run the API, execute the `server.sh` script in the `scripts` folder:
+1. **Start the FastAPI Server**: To run the API, execute the `server.sh` script in the `scripts` folder:
+
    ```bash
    sh scripts/server.sh
    ```
+
    The API should now be running at `http://127.0.0.1:8000`.
+
+1. **Run the Streamlit App**: Use the following command to run the Streamlit application:
+   ```bash
+   streamlit run app.py
+   ```
+1. **Access the Application**: Open your web browser and go to `http://localhost:8501`
 
 ### Running with Docker
 
@@ -114,17 +136,9 @@ If you'd prefer to run the application in Docker:
     ```
 2.  **Run the Docker Container**:
     `bash
-	docker run -d -p 8000:8000 text-summarization-system    
-	`
-    This will run the FastAPI backend on `http://localhost:8000`.
-
-### Running the Streamlit Frontend:
-
-You can also run the frontend (Streamlit) by executing:
-
-```bash
-streamlit run app.py
-```
+docker run -d -p 8080:8080 text-summarization-system    
+`
+    This will run the FastAPI backend on `http://localhost:8080`.
 
 ## Testing the API
 
@@ -137,5 +151,6 @@ http://localhost:8000/docs
 This page provides a user-friendly interface to test all the API endpoints (such as login, registration, and text summarization) directly from your browser. You can input the required data and see the responses, which makes it easy to ensure the API is working as expected.
 
 ## Contact
+
 If you have any comments, suggestions or anything you'd like to be clarify on, feel free
-to reach us via email [Asim](mailto:amohamed@aimsammi.org), [Leema](mailto:lhamid@aimsammi.org), [Prince](mailto:pmensah@aimsammi.org) or let's connect on linkedin, [Leema](https://www.linkedin.com/in/leema-hamid/), [Prince](https://www.linkedin.com/in/prince-mensah/), [Asim](https://www.linkedin.com/in/asim-mohamed-9a2047135/).
+to reach us via email [Asim](mailto:amohamed@aimsammi.org), [Leema](mailto:lhamid@aimsammi.org), [Prince](mailto:pmensah@aimsammi.org) or let's connect on linkedin, [Asim](https://www.linkedin.com/in/asim-mohamed-9a2047135/), [Leema](https://www.linkedin.com/in/leema-hamid/), [Prince](https://www.linkedin.com/in/prince-mensah/).
